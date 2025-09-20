@@ -1,3 +1,4 @@
+import pdfWorker from "pdfjs-dist/build/pdf.worker.mjs?url";
 export interface PdfConversionResult {
   imageUrl: string;
   file: File | null;
@@ -15,8 +16,8 @@ async function loadPdfJs(): Promise<any> {
   isLoading = true;
   // @ts-expect-error - pdfjs-dist/build/pdf.mjs is not a module
   loadPromise = import("pdfjs-dist/build/pdf.mjs").then((lib) => {
-    // Set the worker source to use local file
-    lib.GlobalWorkerOptions.workerSrc = "/pdf.worker.min.mjs";
+    // Set the worker source to use the imported worker URL directly
+    lib.GlobalWorkerOptions.workerSrc = pdfWorker;
     pdfjsLib = lib;
     isLoading = false;
     return lib;
